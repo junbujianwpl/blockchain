@@ -36,7 +36,7 @@ func (pow *ProofOfWork) PrepareRawData(nonce int64) []byte {
 	var network bytes.Buffer
 	enc:=gob.NewEncoder(&network)
 	err:=enc.Encode(block)
-	CheckErr(err)
+	CheckErr("newblockchain",err)
 	//fmt.Println(network)
 
 	return network.Bytes()

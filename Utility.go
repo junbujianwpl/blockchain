@@ -20,9 +20,9 @@ func IntToByte(num int64)[]byte{
 
 }
 
-func CheckErr(err error) {
+func CheckErr(pos string,err error) {
 	if err !=nil{
-		fmt.Print("err occur:",err)
+		fmt.Print("err occur:",err,"pos: ",pos)
 		os.Exit(1)
 	}
 }
