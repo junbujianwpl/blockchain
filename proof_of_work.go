@@ -1,70 +1,67 @@
 package block_chain
 
 import (
-	"math/big"
-	"encoding/gob"
 	"bytes"
+	"crypto/sha256"
+	"encoding/gob"
 	"fmt"
 	"math"
-	"crypto/sha256"
-	)
+	"math/big"
+)
 
-const targetBits=24
+const targetBits = 24
 
 type ProofOfWork struct {
-
-	block *Block
+	block     *Block
 	targetBit *big.Int
-
 }
 
 func NewProofOfWork(block *Block) *ProofOfWork {
 
-	var intTargit= new(big.Int).SetInt64(100)
+	var intTargit = new(big.Int).SetInt64(100)
 
-	intTargit.Lsh(intTargit,uint(256-targetBits))
+	intTargit.Lsh(intTargit, uint(256-targetBits))
 
-
-	return &ProofOfWork{block,intTargit }
+	return &ProofOfWork{block, intTargit}
 
 }
 
 func (pow *ProofOfWork) PrepareRawData(nonce int64) []byte {
-	block:=pow.block
-	block.Nonce=nonce
+	block := pow.block
+	block.Nonce = nonce
 	block.SetHash()
 	var network bytes.Buffer
-	enc:=gob.NewEncoder(&network)
-	err:=enc.Encode(block)
-	CheckErr("newblockchain",err)
+	enc := gob.NewEncoder(&network)
+	err := enc.Encode(block)
+	CheckErr("newblockchain", err)
 	//fmt.Println(network)
 
 	return network.Bytes()
 }
 
-func (pow ProofOfWork) Run() (int64, []byte)  {
+func (pow ProofOfWork) Run() (int64, []byte) {
 	var nonce int64
 	var hash [32]byte
 	var hashInt big.Int
 	fmt.Println("开始 挖圹了")
-	for nonce < math.MaxInt64{
-		data:=pow.PrepareRawData(nonce)
-		hash=sha256.Sum256(data)
+	for nonce < math.MaxInt64 {
+		data := pow.PrepareRawData(nonce)
+		hash = sha256.Sum256(data)
 		hashInt.SetBytes(hash[:])
-		if hashInt.Cmp(pow.targetBit)<0{
-			fmt.Printf("found hash :%x  hashInt :%s \n",hash,hashInt)
+		if hashInt.Cmp(pow.targetBit) < 0 {
+			fmt.Printf("found hash :%x  hashInt :%s \n", hash, hashInt)
 			break
-		}else {
+		} else {
 			nonce++
 		}
 	}
-	return nonce,hash[:]
+	return nonce, hash[:]
 }
 
-func (pow *ProofOfWork) IsValid()bool  {
-	data:=pow.PrepareRawData(pow.block.Nonce)
-	hash :=sha256.Sum256(data)
+func (pow *ProofOfWork) IsValid() bool {
+	data := pow.PrepareRawData(pow.block.Nonce)
+	hash := sha256.Sum256(data)
 	var intHash big.Int
 	intHash.SetBytes(hash[:])
-	return intHash.Cmp(pow.targetBit)<0
+	return intHash.Cmp(pow.targetBit) < 0
 }

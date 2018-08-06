@@ -2,10 +2,10 @@ package main
 
 import "block_chain"
 
-func main()  {
+func main() {
 
-	bc:=block_chain.NewBlockChain()
-	cli:=block_chain.CLI{bc}
+	bc := block_chain.NewBlockChain()
+	cli := block_chain.CLI{bc}
 	cli.Run()
 	//for {
 	//	block:=it.Next()
