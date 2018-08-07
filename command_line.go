@@ -20,7 +20,7 @@ func (cli *CLI) Run() {
 		fmt.Println("too few args", Usage)
 		os.Exit(1)
 	}
-	fmt.Printf("cli.Bc.LASTHASH:%x\n",cli.Bc.lastHash)
+	//fmt.Printf("cli.Bc.LASTHASH:%x\n",cli.Bc.lastHash)
 
 	addBlockCmd := flag.NewFlagSet("addBlock", flag.ExitOnError)
 	printCmd := flag.NewFlagSet("printChain", flag.ExitOnError)

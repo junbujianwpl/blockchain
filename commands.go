@@ -24,7 +24,7 @@ func (cli *CLI) PrintChain() {
 		fmt.Println("Nonce", block.Nonce)
 		fmt.Println("targetbit", block.TargetBits)
 		fmt.Println("Merkel root", block.MerKelRoot)
-		fmt.Printf("hash:%x\n",block.Hash)
+		fmt.Printf("hash:%x\n\n",block.Hash)
 		//pow := NewProofOfWork(block)
 		//fmt.Println(pow.IsValid())
 

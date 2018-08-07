@@ -97,7 +97,7 @@ func (bc *BlockChain) Iterator() *BlockChainIterator {
 
 func (it *BlockChainIterator) Next() *Block {
 	var block *Block
-	fmt.Printf("iter current hash:%x\n",it.currentHash)
+	//fmt.Printf("iter current hash:%x\n",it.currentHash)
 	err := it.db.View(func(tx *bolt.Tx) error {
 
 		bucket := tx.Bucket([]byte(blockBuckit))
