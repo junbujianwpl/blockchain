@@ -20,6 +20,7 @@ func (cli *CLI) Run() {
 		fmt.Println("too few args", Usage)
 		os.Exit(1)
 	}
+	fmt.Printf("cli.Bc.LASTHASH:%x\n",cli.Bc.lastHash)
 
 	addBlockCmd := flag.NewFlagSet("addBlock", flag.ExitOnError)
 	printCmd := flag.NewFlagSet("printChain", flag.ExitOnError)
@@ -31,9 +32,11 @@ func (cli *CLI) Run() {
 		CheckErr("addBlock", err)
 		if addBlockCmd.Parsed() {
 			if *addBlockCmdPara == "" {
+				fmt.Println("data is empty")
+				os.Exit(1)
 				//cli.Bc.AddBlock(addBlockCmdPara)
-				cli.AddBlock(*addBlockCmdPara) //todo
 			}
+			cli.AddBlock(*addBlockCmdPara) //todo
 		}
 
 	case "printChain":

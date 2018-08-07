@@ -5,6 +5,8 @@ import (
 	"crypto/sha256"
 	"encoding/gob"
 	"time"
+	"fmt"
+	"os"
 )
 
 type Block struct {
@@ -69,10 +71,14 @@ func (block *Block) Serialize() []byte {
 }
 
 func Deserialize(data []byte) *Block {
+	if len(data)<1{
+		fmt.Println("bad data")
+		os.Exit(1)
+	}
 	decoder := gob.NewDecoder(bytes.NewReader(data))
 
 	var block Block
-	err := decoder.Decode(block)
+	err := decoder.Decode(&block)
 	CheckErr("Deserialize", err)
 
 	return &block
